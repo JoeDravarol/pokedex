@@ -1,6 +1,5 @@
 const API_URL = "https://pokeapi.co/api/v2/pokemon";
 const SPRITES_URL = "https://veekun.com/dex/media/pokemon/dream-world/";
-const MAX_POKEDEX = 50;
 const COLORS = {
 	fire: '#fc6c6d',
 	grass: '#49d0b0',
@@ -54,6 +53,12 @@ const createPokemon = data => {
 	renderCardComponent( createCardComponent(data) )
 }
 
+const removeAllPokemon = () => {
+	const container = document.querySelector('.pokemon-container');
+
+	container.innerHTML = ''
+}
+
 const fetchPokemon = id => {
 	return fetch(`${API_URL}/${id}`)
 		.then(res => res.json())
@@ -62,11 +67,53 @@ const fetchPokemon = id => {
 		})
 }
 
-(() => {
-	let promises = [];
+const handlePaginate = (event) => {
+	const button = event.target;
 
-	for (let pokeId = 1; pokeId <= MAX_POKEDEX; pokeId++) {
-		promises.push( fetchPokemon(pokeId) )
+	if (button.id.toLowerCase() === 'prev') {
+		minPokedex -= 50;
+		maxPokedex -= 50;
+	} else if (button.id.toLowerCase() === 'next') {
+		minPokedex += 50;
+		maxPokedex += 50;
+	}
+
+	removeAllPokemon()
+	fetchPokemons(minPokedex, maxPokedex)
+	hideOrShowButton(minPokedex, maxPokedex);
+}
+
+const hideOrShowButton = () => {
+	const prevButton = document.querySelector('#prev');
+	const nextButton = document.querySelector('#next');
+
+	if (minPokedex <= 1) {
+		prevButton.classList.add('button-hide');
+	} else {
+		prevButton.classList.remove('button-hide');
+	}
+
+	if (maxPokedex >= 650) {
+		nextButton.classList.add('button-hide');
+	} else {
+		nextButton.classList.remove('button-hide');
+	}
+} 
+
+const prevButton = document.querySelector('#prev');
+const nextButton = document.querySelector('#next');
+
+prevButton.addEventListener('click', handlePaginate)
+nextButton.addEventListener('click', handlePaginate)
+
+let minPokedex = 1;
+let maxPokedex = 50;
+
+const fetchPokemons = (min, max) => {
+	let promises = [];
+	
+	for (let i = min; i <= max; i++) {
+		promises.push( fetchPokemon(i) )
 	}
 
 	// Keep pokedex sorted by id rather than whichever promises
@@ -78,4 +125,7 @@ const fetchPokemon = id => {
 		.catch(err =>{
 			console.error(`Error: ${err}`)
 		})
-})()
+}
+
+// Initialize Pokedex
+fetchPokemons(minPokedex, maxPokedex);
