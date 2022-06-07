@@ -1,6 +1,6 @@
 # Pokedex
 
-Text here...
+Pokedex is an invaluable tool to Trainers in the Pokemon world. It provides information about all Pokemon in the world that are contained in its database.
 
 ## Demo
 
@@ -43,4 +43,6 @@ This project is licensed under the MIT license - see the [LICENSE](LICENSE) file
 
 ## Acknowledgement
 
-- [PokeApi](https://github.com/ElliottLandsborough) - [API](https://pokeapi.co/)
+- [PokeApi](https://github.com/PokeAPI) - [API](https://pokeapi.co/)
+- [Eevee](https://github.com/eevee) - [Pokemon Sprites](https://veekun.com/dex/media/pokemon/dream-world/)
+- [Saepul Nahwan](https://dribbble.com/saepulnahwan23) - [Design Inspiration](https://dribbble.com/shots/6540871-Pokedex-App)
